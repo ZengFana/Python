@@ -91,8 +91,9 @@ my_bag = {}
 total_weight = 0
 print("負重採集模式")
 while True:
-    item = input("撿到什麼?(輸入exit結束):")
-    if item == "exit":
+    raw_input = input("撿到什麼?(輸入exit結束):")
+    item = raw_input.strip().capitalize()
+    if item == "Exit":
         break
     if item == "Trash":
         print("這是垃圾，我不撿！")
@@ -102,7 +103,11 @@ while True:
     else:
         incoming_weights = 0.5
     if total_weight + incoming_weights > 15:
+        incoming_weights -= total_weight
         print(f"這個太重了{item}重,{incoming_weights}KG")
+        continue
+    if item == "Bag":
+        print(f"目前背包內有{my_bag},總重量來到{total_weight}KG")
         continue
 
     if item in my_bag:
