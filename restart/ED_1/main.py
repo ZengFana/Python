@@ -12,3 +12,7 @@ for data in port_logs:
     st = data["status"]
     pm = PortManager(pn,br,st)
     pm.test_port()
+
+pm1 = PortManager("COM6", 115200, "Connected")
+pm2 = PortManager("COM7", 9600, "Error")
+pm1.test_port(),pm2.test_port()
