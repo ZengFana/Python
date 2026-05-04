@@ -1,15 +1,22 @@
-# from PyQt6 import QtWidgets
-from PyQt import QtWidgets
+from PyQt6 import QtWidgets
 import sys
 
-app = QtWidgets.QApplication(sys.argv)
+class MyWidget(QtWidgets.QWidget):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle('oxxo.studio')
+        self.resize(320, 240)
+        self.setStyleSheet('background:#fcc;')
+        self.ui()
 
-Form = QtWidgets.QWidget()          # 建立視窗元件
-Form.setWindowTitle('oxxo.studio')  # 設定視窗標題
-Form.resize(300, 200)               # 設定視窗尺寸
+    def ui(self):
+        self.label = QtWidgets.QLabel(self)          # 在 Form 裡加入 label
+        self.label.move(50,50)                       # 移動到 (50, 50) 的位置
+        self.label.setText('hello world')            # 寫入文字
+        self.label.setStyleSheet('font-size:30px; color:#00c')  # 設定樣式
 
-label = QtWidgets.QLabel(Form)      # 在 Form 裡加入標籤
-label.setText('hello world')        # 設定標籤文字
-
-Form.show()                         # 顯示視窗
-sys.exit(app.exec())
+if __name__ == '__main__':
+    app = QtWidgets.QApplication(sys.argv)
+    Form = MyWidget()
+    Form.show()
+    sys.exit(app.exec())
