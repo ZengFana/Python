@@ -1,1 +1,11 @@
-*.json
+# 忽略 PyCharm / IntelliJ 設定
+.idea/
+
+# 忽略 VS Code 設定
+.vscode/
+
+# 忽略 Python 快取與虛擬環境 (建議順便加上)
+__pycache__/
+*.py[cod]
+venv/
+.venv/
