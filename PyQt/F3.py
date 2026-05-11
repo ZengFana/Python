@@ -1,4 +1,4 @@
-from PyQt6 import QtWidgets
+from PySide6 import QtWidgets
 import sys
 
 app = QtWidgets.QApplication(sys.argv) # 視窗程式開始
