@@ -111,7 +111,7 @@ class MyWindow(QMainWindow):
         self.resize(1550, 900)
 
         # self._build_actions()
-        # self._build_toolbar()
+        self._build_toolbar()
         # self._build_status_bar()
         self._build_central_ui()
         # self._connect_signals()
@@ -124,38 +124,38 @@ class MyWindow(QMainWindow):
     # ------------------------------------------------------
     # A. 基本 UI 建立
     # ------------------------------------------------------
-    # def _build_actions(self) -> None:
-    #     self.action_open_cfg = QAction("載入 CFG", self)
-    #     self.action_start = QAction("開始", self)
-    #     self.action_stop = QAction("停止", self)
-    #     self.action_stop.setEnabled(False)
-    #     self.action_refresh_ports = QAction("重新整理 COM", self)
-    #     self.action_exhibition_mode = QAction("展覽模式", self)
-    #     self.action_clear = QAction("清空畫面", self)
-    #     self.action_about = QAction("關於", self)
+    def _build_actions(self) -> None:
+        self.action_open_cfg = QAction("載入 CFG", self)
+        self.action_start = QAction("開始", self)
+        self.action_stop = QAction("停止", self)
+        self.action_stop.setEnabled(False)
+        self.action_refresh_ports = QAction("重新整理 COM", self)
+        self.action_exhibition_mode = QAction("展覽模式", self)
+        self.action_clear = QAction("清空畫面", self)
+        self.action_about = QAction("關於", self)
 
-    # def _build_toolbar(self) -> None:
-    #     toolbar = QToolBar("Main Toolbar", self)
-    #     toolbar.setMovable(False)
-    #     self.addToolBar(toolbar)
-    #
-    #     toolbar.addAction(self.action_open_cfg)
-    #     toolbar.addSeparator()
-    #     toolbar.addAction(self.action_refresh_ports)
-    #     toolbar.addSeparator()
-    #     toolbar.addAction(self.action_start)
-    #     toolbar.addAction(self.action_stop)
-    #     toolbar.addSeparator()
-    #     toolbar.addAction(self.action_exhibition_mode)
-    #     toolbar.addSeparator()
-    #     toolbar.addAction(self.action_clear)
-    #     toolbar.addAction(self.action_about)
+    def _build_toolbar(self) -> None:
+        toolbar = QToolBar("Main Toolbar", self)
+        toolbar.setMovable(False)
+        self.addToolBar(toolbar)
 
-    def _build_status_bar(self) -> None:
-        bar = QStatusBar(self)
-        self.setStatusBar(bar)
-        self.status_label = QLabel("就緒")
-        bar.addPermanentWidget(self.status_label)
+        toolbar.addAction(self.action_open_cfg)
+        toolbar.addSeparator()
+        toolbar.addAction(self.action_refresh_ports)
+        toolbar.addSeparator()
+        toolbar.addAction(self.action_start)
+        toolbar.addAction(self.action_stop)
+        toolbar.addSeparator()
+        toolbar.addAction(self.action_exhibition_mode)
+        toolbar.addSeparator()
+        toolbar.addAction(self.action_clear)
+        toolbar.addAction(self.action_about)
+
+    # def _build_status_bar(self) -> None:
+    #     bar = QStatusBar(self)
+    #     self.setStatusBar(bar)
+    #     self.status_label = QLabel("就緒")
+    #     bar.addPermanentWidget(self.status_label)
 
     def _build_central_ui(self) -> None:
         root = QWidget(self)

@@ -1,5 +1,6 @@
 #沒有tools Bar 只專注於左邊控制
 from PySide6 import QtWidgets
+from PySide6.QtGui import QAction
 from PySide6.QtWidgets import (
     QCheckBox,
     QComboBox,
@@ -16,6 +17,7 @@ from PySide6.QtWidgets import (
     QSpinBox,
     QStatusBar,
     QVBoxLayout,
+    QToolBar,
     QWidget,
 )
 import sys
@@ -25,6 +27,8 @@ class MyWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle("QGround")
         # self.resize(400, 300)
+        self._actions()
+        self._toolbar()
         self.ui1()
 
     def ui1(self):
@@ -54,6 +58,8 @@ class MyWindow(QMainWindow):
 
         layout.addWidget(self.Serial())
         layout.addWidget(self.CFG())
+        layout.addWidget(self.RT1())
+        layout.addWidget(self.RT2())
         # layout.addWidget(self.Sensor())
         # layout.addWidget(self.Zone())
         return scroll
@@ -68,7 +74,7 @@ class MyWindow(QMainWindow):
 
         self.spinCB = QSpinBox() #數值調整元件
         self.spinCB.setRange(9600,300000)
-        self.spinCB.setSingleStep(1)
+        self.spinCB.setSingleStep(120)
         layout.addWidget(QLabel("CD"),0,0)
         layout.addWidget(self.comboCP,0,1)
         layout.addWidget(QLabel("CB"),1,0)
@@ -137,6 +143,15 @@ class MyWindow(QMainWindow):
         layout.addWidget(self.DoubQ,0,2)
         return TT1
 
+    def _toolbar(self):
+        toolbar = QToolBar("Toolbar",self)
+        toolbar.setMovable(False)
+        self.addToolBar(toolbar)
+
+        toolbar.addAction(self.action_OCFG)
+        toolbar.addSeparator()
+    def _actions(self):
+        self.action_OCFG = QAction('Hello',self)
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     window = MyWindow()
