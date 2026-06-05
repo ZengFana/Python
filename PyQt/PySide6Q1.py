@@ -17,9 +17,11 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
     QWidget,
     QSlider,
+    QPlainTextEdit,
 )
 from PySide6.QtCore import Qt
 import sys
+from datetime import datetime
 
 class MyWindow(QMainWindow):
     def __init__(self):
@@ -36,8 +38,11 @@ class MyWindow(QMainWindow):
 
         left = self.BLP()
         min = self.TRP()
+        wgp = self.show_window()
         user_layout.addWidget(left,0)
         user_layout.addWidget(min,1)
+        user_layout.addWidget(wgp,2)
+
 
     def BLP(self):
         scroll = QScrollArea(self)
@@ -59,14 +64,25 @@ class MyWindow(QMainWindow):
         layout = QGridLayout(group)
         self.comboCP = QComboBox()
         self.comboCP.setEditable(True)
+        self.comboCP.addItems(['0','1','2','3','4','5'])
         self.comboDP = QComboBox()
         self.comboDP.setEditable(True)
+        self.comboDP.addItems(['0','1','2','3','4','5'])
+
+        self.labelCP = QLabel('')
+        self.labelDP = QLabel('')
+        def handle_charge():
+            current_val = self.comboCP.currentText()
+            self.labelCP.setText(current_val)
+            self.add_log(f"CGG 設定更新為: {current_val}")
+        self.comboCP.activated.connect(handle_charge)
 
         self.spinCB = QSpinBox()
         self.spinCB.setRange(100,3000)
         self.spinCB.setSingleStep(100)
         layout.addWidget(QLabel('CP'),0,0)
         layout.addWidget(self.comboCP,0,1)
+        layout.addWidget(self.labelCP,0,2)
         layout.addWidget(QLabel('DP'),1,0)
         layout.addWidget(self.comboDP,1,1)
         layout.addWidget(QLabel('CB'),2,0)
@@ -83,7 +99,7 @@ class MyWindow(QMainWindow):
         # self.QLabel.setText('QLabel')
 
         layout.addWidget(self.Serial())
-        layout.addWidget(self.CGG())
+        # layout.addWidget(self.CGG())
         # layout.addWidget(self.Serial,0,1)
         return pen
 
@@ -92,6 +108,9 @@ class MyWindow(QMainWindow):
         layout = QGridLayout(group)
         self.QLabel = QLabel('w')
         self.QLabel.setText('Serial1')
+        self.sliderCP.sliderReleased.connect(
+            lambda: self.add_log(f"Slider 數值已調整至: {self.sliderCP.value()}")
+        )
 
         layout.addWidget(self.QLabel,0,0)
         return group
@@ -106,12 +125,15 @@ class MyWindow(QMainWindow):
         slider = QSlider(Qt.Horizontal)
         slider.setRange(0,100)
         slider.setTickPosition(QSlider.TicksBelow)
-        slider.setTickInterval(1)
+        slider.setTickInterval(10)
         layout = QGridLayout(group)
 
         self.selCP = QSpinBox()
         self.sliderCP = QSlider(Qt.Horizontal)
-        self.label1 = QLabel('w')
+        self.label1 = QLineEdit('0')
+        self.label1.setFixedWidth(50)
+        self.sliderCP.valueChanged.connect(lambda v: self.label1.setText(str(v)))
+        self.label1.textChanged.connect(self.update_silder)
         # self.label1.setText(f'{slider.value}')
         # sliderCP.valueChanged.connect()
         # self.selCP = QLineEdit()
@@ -121,6 +143,32 @@ class MyWindow(QMainWindow):
 
 
         return group
+    def update_silder(self):
+        text = self.label1.text()
+        if text.isdigit():
+            value = int(text)
+            if 0 <= value <= 100:
+                self.sliderCP.blockSignals(True)
+                self.sliderCP.setValue(value)
+                self.sliderCP.blockSignals(False)
+                self.add_log(f"手動輸入數值: {value}")
+
+    def show_window(self):
+        group = QGroupBox('系統日誌')
+        layout = QVBoxLayout(group)
+
+        self.log_output = QPlainTextEdit()
+        self.log_output.setReadOnly(True)
+        self.log_output.setPlaceholderText('系統操作紀錄..')
+
+        clear_but = QPushButton('清除')
+        clear_but.clicked.connect(self.log_output.clear)
+        layout.addWidget(self.log_output)
+        layout.addWidget(clear_but)
+        return group
+    def add_log(self, message):
+        current_time = datetime.now().strftime('%H:%M:%S')
+        self.log_output.appendPlainText(f'[{current_time}] {message}')
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
