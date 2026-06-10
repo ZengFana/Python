@@ -95,12 +95,16 @@ class AdvancedRadarApp(QMainWindow):
         self.scatter2d = pg.ScatterPlotItem(size=8, brush=pg.mkBrush(0, 255, 0, 200))
         self.plot2d.addItem(self.scatter2d)
         layout_2d.addWidget(self.plot2d)
+        #
+        # self.plot2d = pg.PlotWidget()  # 1. 買一塊 2D 畫布（Widget）
+        # self.scatter2d = pg.ScatterPlotItem(size=8)  # 2. 買一盒「專門畫散點圖」的彩色筆
+        # self.plot2d.addItem(self.scatter2d)  # 3. 把彩色筆放進畫布裡，準備開畫
 
         # ---- 右配置：3D 視窗容器 ----
         self.container_3d = QWidget()
         layout_3d = QVBoxLayout(self.container_3d)
-        layout_3d.addWidget(QLabel("<b>3D Point Cloud View</b>"))
-        self.plot3d = gl.GLViewWidget()
+        layout_3d.addWidget(QLabel("<b>3D Point Cloud View</b>")) #以上是視窗的內容
+        self.plot3d = gl.GLViewWidget() #這便開始就是跑3D資料的地方
         # 初始化 3D 相機位置 (距離=12, 仰角=30, 方位角=45)
         self.plot3d.setCameraPosition(distance=12, elevation=30, azimuth=45)
         grid = gl.GLGridItem()
@@ -110,10 +114,19 @@ class AdvancedRadarApp(QMainWindow):
         self.scatter3d = gl.GLScatterPlotItem(size=5, color=(0.0, 1.0, 1.0, 0.8))
         self.plot3d.addItem(self.scatter3d)
         layout_3d.addWidget(self.plot3d)
+        #
+        # self.plot3d = gl.GLViewWidget()  # 1. 買一塊立體 3D 畫布
+        # self.plot3d.setCameraPosition(distance=12, elevation=30, azimuth=45)  # 2. 設定你的眼睛（攝影機）要從多遠、什麼角度看過去
+        #
+        # grid = gl.GLGridItem()  # 3. 做出一個 3D 的空間網格（像地平面一樣）
+        # self.plot3d.addItem(grid)  # 4. 把網格放進 3D 畫布
+        #
+        # self.scatter3d = gl.GLScatterPlotItem(size=5)  # 5. 買一盒 3D 的立體彩色筆（用來畫 X, Y, Z）
+        # self.plot3d.addItem(self.scatter3d)  # 6. 把立體彩色筆放入畫布
 
         # 將 2D 與 3D 容器放入圖表排版中
-        self.charts_layout.addWidget(self.container_2d, stretch=1)
-        self.charts_layout.addWidget(self.container_3d, stretch=1)
+        self.charts_layout.addWidget(self.container_2d, stretch=1)  #這邊是2D的圖
+        self.charts_layout.addWidget(self.container_3d, stretch=1)  #這邊是3D的圖
 
         # 將圖表排版加入頂層排版
         self.top_level_layout.addLayout(self.charts_layout)
