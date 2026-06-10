@@ -55,7 +55,7 @@ class AdvancedRadarApp(QMainWindow):
         self.is_fullscreen_mode = False
 
         # --- 主畫布與主要排版 ---
-        main_widget = QWidget()
+        main_widget = QWidget() #視窗(畫布)
         self.setCentralWidget(main_widget)
 
         # 頂層採用垂直排版：上方放控制列，下方放繪圖區
