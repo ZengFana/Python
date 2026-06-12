@@ -1,6 +1,6 @@
 import sys
 import numpy as np
-from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QHBoxLayout, QVBoxLayout, QLabel, QPushButton, \
+from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QHBoxLayout, QVBoxLayout, QLabel, QPushButton, QLineEdit,\
     QComboBox
 from PySide6.QtCore import QThread, Signal, Qt
 import pyqtgraph as pg
@@ -33,7 +33,7 @@ class SimulatedRadarThread(QThread):
             all_points = np.vstack([all_points, target_point])
 
             self.data_signal.emit(all_points)
-            self.msleep(100)  # 10Hz 更新率
+            self.msleep(1000)  # 10Hz 更新率
             angle += 0.05
 
     def stop(self):
